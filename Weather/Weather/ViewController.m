@@ -21,12 +21,26 @@
     datalist = [[NSMutableArray alloc]init];
     detailData = [[NSMutableDictionary alloc]init];
     
+    // for XML Parsing
     parser = [[NSXMLParser alloc]initWithContentsOfURL: [NSURL URLWithString:@"https://raw.githubusercontent.com/ChoiJinYoung/iphonewithswift2/master/weather.xml"]];
-    
     parser.delegate = self;
     [parser parse];
     
-    NSLog(@"%@", datalist);
+//    NSLog(@"%@", datalist);
+    
+    // for JSON Serializing
+    
+    jsonData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://raw.githubusercontent.com/ChoiJinYoung/iphonewithswift2/master/weather.json"]];
+    NSError *err;
+    dataListDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingFragmentsAllowed error:&err];
+    
+//    NSLog(@"%@", dataListDictionary);
+    
+    local = [[dataListDictionary objectForKey:@"weatherinfo"]objectForKey:@"local"];
+    NSLog(@"%@", local);
+    
+    
+    // Original mock data
     
 //    NSDictionary * dic1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"한국", @"지역", @"맑음", @"날씨", nil];
 //    NSDictionary * dic2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"일본", @"지역", @"우박", @"날씨", nil];
@@ -82,24 +96,35 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return datalist.count;
+    /// XML Parsed Data
+//    return datalist.count;
+    
+    /// JSON Parsed Data
+    return local.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
+    /// Original Mock data
 //    NSDictionary *dicTemp = [datalist objectAtIndex:indexPath.row];
-//
 //    cell.textLabel.text = [dicTemp objectForKey:@"지역"];
 //    NSString *weatherStr = [dicTemp objectForKey:@"날씨"];
     
-    NSDictionary *dicTemp = [datalist objectAtIndex:indexPath.row];
+    
+    /// XML Parsed Data
+//    NSDictionary *dicTemp = [datalist objectAtIndex:indexPath.row];
+    
+        /// JSON Parsed Data
+    NSDictionary *dicTemp = [local objectAtIndex:indexPath.row];
     
     cell.textLabel.text = [dicTemp objectForKey:@"country"];
     NSString *weatherStr = [dicTemp objectForKey:@"weather"];
     NSString *temperatureStr = [dicTemp objectForKey:@"temperature"];
-    
+
     cell.detailTextLabel.text = [weatherStr stringByAppendingString:temperatureStr];
+    
+   
     
     if ([weatherStr isEqualToString:@"맑음"]) {
         cell.imageView.image = [UIImage imageNamed:@"sunny.png"];

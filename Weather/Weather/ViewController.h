@@ -8,13 +8,23 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, NSXMLParserDelegate>{
+    
+    
+    // XML Parser
     NSXMLParser *parser;
+    NSString *elementTemp;
+    
     NSMutableArray *datalist;
     NSMutableDictionary *detailData;
     
-    NSString *elementTemp;
-    
     BOOL blank;
+    
+    
+    // JSON Parser
+    NSData *jsonData;
+    NSDictionary *dataListDictionary;
+    NSArray *local;
+    
 }
 
 
