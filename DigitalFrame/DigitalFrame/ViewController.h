@@ -7,13 +7,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController {
+    int i;
+}
 
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
+
+@property (nonatomic, strong) IBOutlet UIButton *button;
 
 @property (nonatomic, strong) IBOutlet UISlider *slider;
 
 @property (nonatomic, strong) IBOutlet UILabel *label;
+
+
+-(IBAction)buttonAction:(id)sender;
+-(IBAction)sliderAction:(id)sender;
 
 
 @end

@@ -13,7 +13,7 @@
 
 @implementation ViewController
 
-@synthesize imageView, label, slider;
+@synthesize imageView, label, slider, button;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,11 +38,30 @@
     
     imageView.animationImages = cuteImages;
     imageView.animationDuration = 15;
-    [imageView startAnimating];
+//    [imageView startAnimating];
     
     
     
 }
 
+-(IBAction)buttonAction:(id)sender {
+    if ([imageView isAnimating]) {
+        [imageView stopAnimating];
+        [button setTitle:@"Start" forState: UIControlStateNormal];
+    } else {
+        imageView.animationDuration = slider.value;
+        [imageView startAnimating];
+        [button setTitle:@"Stop" forState:UIControlStateNormal];
+    }
+}
+
+-(IBAction)sliderAction:(id)sender {
+    imageView.animationDuration = 15-slider.value;
+    [imageView startAnimating];
+    
+    NSString *str = [[NSString alloc]initWithFormat:@"%.2f",slider.value];
+    
+    label.text = str;
+}
 
 @end
